@@ -22,4 +22,9 @@ func Goly(e *echo.Echo, handler goly.Handler){
 	goly := e.Group("/goly")
 
 	goly.POST("", handler.CreateGoly)
+	goly.GET("", handler.GetAllGoly())
+	goly.GET("/r/:redirect", handler.Redirect)
+	goly.PUT("/:id",handler.UpdateGoly())
+	goly.DELETE("/:id",handler.DeleteGoly())
+	goly.GET("/:id",handler.GolyDetails())
 }

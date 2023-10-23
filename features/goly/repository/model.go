@@ -17,6 +17,23 @@ func New(db *gorm.DB) goly.Repository {
     }
 }
 
+
+
+func (mdl *model) Paginate(page, size int) []goly.Goly {
+	var goly []goly.Goly
+
+	offset := (page - 1) * size
+
+	result := mdl.db.Offset(offset).Limit(size).Find(&goly)
+
+	if result.Error != nil {
+		log.Error(result.Error)
+		return nil
+	}
+
+	return goly
+}
+
 func (mdl *model) Insert(newGoly *goly.Goly) *goly.Goly {
 	result := mdl.db.Create(newGoly)
 
@@ -27,9 +44,9 @@ func (mdl *model) Insert(newGoly *goly.Goly) *goly.Goly {
 	return newGoly
 }
 
-func (mdl *model) SelectByID(userID int) *goly.Goly {
+func (mdl *model) SelectByID(golyID int) *goly.Goly {
 	var goly goly.Goly
-	result := mdl.db.First(&goly, userID)
+	result := mdl.db.First(&goly, golyID)
 
 	if result.Error != nil {
 		log.Error(result.Error)
@@ -37,6 +54,18 @@ func (mdl *model) SelectByID(userID int) *goly.Goly {
 	}
 
 	return &goly
+}
+
+func(mdl *model)FindByGolyUrl(url string) (goly.Goly, error) {
+	var goly goly.Goly
+    result := mdl.db.Where("goly = ?", url).First(&goly)
+
+    if result.Error!= nil {
+        log.Error(result.Error)
+        return goly, result.Error
+    }
+
+    return goly, nil
 }
 
 func (mdl *model) Update(goly goly.Goly) int64 {
@@ -47,6 +76,17 @@ func (mdl *model) Update(goly goly.Goly) int64 {
 	}
 
 	return result.RowsAffected
+}
+
+func (mdl *model) UpdateButton(goly goly.Goly) error {
+    result := mdl.db.Updates(&goly)
+
+    if result.Error != nil {
+        log.Error(result.Error)
+        return result.Error
+    }
+
+    return nil
 }
 
 func (mdl *model) DeleteByID(golyID int) int64 {
