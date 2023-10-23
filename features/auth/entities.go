@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"shortlink/features/goly"
 	"time"
 
 	"gorm.io/gorm"
@@ -16,5 +15,4 @@ type Users struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
-	Goly []goly.Goly `gorm:"foreignKey:UserID`
 }
