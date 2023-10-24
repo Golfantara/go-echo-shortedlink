@@ -64,7 +64,7 @@ func loadConfig() *ProgramConfig {
 	}
 
 	if val,found := os.LookupEnv("REFSECRET"); found {
-		res.Secret = val
+		res.RefreshSecret = val
 	}
 
 	return res
