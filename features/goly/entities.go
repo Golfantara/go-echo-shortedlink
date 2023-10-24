@@ -8,6 +8,7 @@ import (
 
 type Goly struct {
 	ID        uint64 `gorm:"primaryKey"`
+	UserID    string `json:"user_id"`
 	Redirect  string `gorm:"not null"`
 	Goly      string `gorm:"unique;not null"`
 	Clicked   uint64 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"shortlink/config"
 	"shortlink/features"
 	"shortlink/routes"
 
@@ -10,13 +11,14 @@ import (
 var (
 	userHandler = features.UsersHandler()
 	golyhandler = features.GolyHandler()
+	cfg = config.InitConfig()
 )
 
 
 func main() {
 	e := echo.New()
-	routes.Users(e, userHandler)
-	routes.Goly(e, golyhandler)
+	routes.Users(e, userHandler, *cfg)
+	routes.Goly(e, golyhandler, *cfg)
 
 
 	e.Start(":8000")
