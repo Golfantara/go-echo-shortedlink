@@ -29,4 +29,5 @@ func Goly(e *echo.Echo, handler goly.Handler, cfg config.ProgramConfig){
 	goly.PUT("/:id",handler.UpdateGoly(), echojwt.JWT([]byte(cfg.Secret)))
 	goly.DELETE("/:id",handler.DeleteGoly(), echojwt.JWT([]byte(cfg.Secret)))
 	goly.GET("/:id",handler.GolyDetails(), echojwt.JWT([]byte(cfg.Secret)))
+	goly.GET("/search/:short", handler.SearchGoly())
 }

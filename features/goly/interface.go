@@ -14,6 +14,7 @@ type Repository interface {
 	DeleteByID(golyID int) int64
 	Paginate(page, size int) []Goly
 	FindByGolyUrl(url string) (Goly, error)
+	SearchingGoly(short string) ([]Goly, error)
 }
 
 type UseCase interface {
@@ -24,6 +25,7 @@ type UseCase interface {
 	Remove(golyID int) bool
 	IncreaseClickAndRedirect(goly Goly) error
 	GetGolyByUrl(url string) (Goly, error)
+	SearchGoly(short string) ([]Goly, error)
 }
 
 type Handler interface {
@@ -33,4 +35,5 @@ type Handler interface {
 	UpdateGoly() echo.HandlerFunc
 	DeleteGoly() echo.HandlerFunc
 	Redirect(c echo.Context) error
+	SearchGoly() echo.HandlerFunc
 }

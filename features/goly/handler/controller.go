@@ -153,6 +153,17 @@ func (ctl *controller) DeleteGoly() echo.HandlerFunc {
 	}
 }
 
+func (ctl *controller) SearchGoly() echo.HandlerFunc {
+    return func(ctx echo.Context) error {
+        golyname := ctx.Param("short")
+        golies, err := ctl.service.SearchGoly(golyname)
+        if err != nil {
+            return ctx.JSON(400, helpers.Response(err.Error()))
+        }
+        return ctx.JSON(200, golies)
+    }
+}
+
 func(ctl *controller) Redirect(c echo.Context) error {
 	golyUrl := c.Param("redirect")
     goly, err := ctl.service.GetGolyByUrl(golyUrl)

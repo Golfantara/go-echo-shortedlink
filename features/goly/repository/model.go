@@ -56,6 +56,16 @@ func (mdl *model) SelectByID(golyID int) *goly.Goly {
 	return &goly
 }
 
+func (mdl *model) SearchingGoly(short string) ([]goly.Goly, error) {
+    var golies []goly.Goly
+    result := mdl.db.Where("goly LIKE ?", "%"+short+"%").Find(&golies)
+    if result.Error != nil {
+        log.Error(result.Error)
+        return nil, result.Error
+    }
+    return golies, nil
+}
+
 func(mdl *model)FindByGolyUrl(url string) (goly.Goly, error) {
 	var goly goly.Goly
     result := mdl.db.Where("goly = ?", url).First(&goly)
