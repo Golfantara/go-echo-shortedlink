@@ -8,7 +8,7 @@ import (
 )
 
 type Users struct {
-	ID          int    `gorm:"primaryKey";"type:int(11)"`
+	ID          int    `gorm:"primaryKey";"type:int(11);autoIncrement"`
 	Fullname    string `gorm:"type:varchar(255);not null"`
 	PhoneNumber string `gorm:"type:varchar(13);uniqueIndex"`
 	Email       string `gorm:"type:varchar(255);not null"`

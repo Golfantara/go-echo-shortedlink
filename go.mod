@@ -27,6 +27,7 @@ require (
 	github.com/mashingan/smapping v0.1.19
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
+	github.com/midtrans/midtrans-go v1.3.7
 	github.com/sirupsen/logrus v1.9.3
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect

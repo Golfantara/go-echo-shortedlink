@@ -44,7 +44,7 @@ func (mdl *model) Insert(newUsers *auth.Users) *auth.Users {
 
 func (mdl *model) SelectByID(userID int) *auth.Users {
 	var user auth.Users
-	result := mdl.db.First(&user, userID)
+	result := mdl.db.Preload("Goly").Find(&user, userID)
 
 	if result.Error != nil {
 		log.Error(result.Error)

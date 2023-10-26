@@ -56,6 +56,10 @@ func(svc *service) GetGolyByUrl(url string) (goly.Goly, error) {
 	return svc.model.FindByGolyUrl(url)
 }
 
+func(svc *service) SearchGoly(short string) ([]goly.Goly, error) {
+    return svc.model.SearchingGoly(short)
+}
+
 func (svc *service) IncreaseClickAndRedirect(goly goly.Goly) error {
     goly.Clicked += 1
     return svc.model.UpdateButton(goly)

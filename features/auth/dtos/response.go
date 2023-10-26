@@ -1,16 +1,17 @@
 package dtos
 
+import "shortlink/features/goly"
+
 type ResUsers struct {
 	ID          int    `json:"id`
-	UsersID     string `json:"user_id"`
 	Fullname    string `json:"fullname"`
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`
+	Goly        []goly.Goly
 }
 
 type ResRegister struct {
 	ID          int            `json:"id`
-	UsersID     string         `json:"users_id"`
 	Fullname    string         `json:"fullname"`
 	PhoneNumber string         `json:"phone_number"`
 	Email       string         `json:"email"`
