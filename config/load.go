@@ -8,6 +8,20 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type ProgramConfig struct {
+	Secret        string
+	RefreshSecret string
+	MT_Server_Key string
+}
+
+type DatabaseConfig struct {
+	DB_USER string
+	DB_PASS string
+	DB_NAME string
+	DB_HOST string
+	DB_PORT int
+}
+
 func InitConfig() *ProgramConfig {
 	var res = new(ProgramConfig)
 	res = loadConfig()
@@ -17,19 +31,6 @@ func InitConfig() *ProgramConfig {
 		return nil
 	}
 	return res
-}
-
-type ProgramConfig struct {
-	Secret        string
-	RefreshSecret string
-}
-
-type DatabaseConfig struct {
-	DB_USER string
-	DB_PASS string
-	DB_NAME string
-	DB_HOST string
-	DB_PORT int
 }
 
 func LoadDBConfig() DatabaseConfig {
@@ -65,6 +66,9 @@ func loadConfig() *ProgramConfig {
 
 	if val,found := os.LookupEnv("REFSECRET"); found {
 		res.RefreshSecret = val
+	}
+	if val,found := os.LookupEnv("MT_SERVER_KEY"); found {
+		res.MT_Server_Key = val
 	}
 
 	return res

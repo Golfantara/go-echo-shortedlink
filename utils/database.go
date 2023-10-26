@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"shortlink/config"
 	"shortlink/features/auth"
+	"shortlink/features/donate"
 	"shortlink/features/goly"
 
 	"gorm.io/driver/mysql"
@@ -26,5 +27,5 @@ func InitDB() *gorm.DB {
 }
 
 func migrate(db *gorm.DB) {
-    db.AutoMigrate(&auth.Users{}, &goly.Goly{})
+    db.AutoMigrate(&auth.Users{}, &goly.Goly{}, &donate.Transaction{}, &donate.Status{},&donate.Donated{})
 }
