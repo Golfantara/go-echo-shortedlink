@@ -1,7 +1,7 @@
 # go-echo-shortedlink
 
+ERD ![image](https://github.com/Golfantara/go-echo-shortedlink/assets/122778300/f9f56d8f-a272-4e18-b422-1d9d5cc06bb7)
 
-ERD ![Miniproject-Shortlink drawio](https://github.com/Golfantara/go-echo-shortedlink/assets/122778300/fec19d40-9972-46af-8a0c-492c9e2c5aed)
 
 
 [APISPEC](https://www.postman.com/lively-equinox-899238/workspace/mini-project)
