@@ -46,15 +46,15 @@ func (mdl *model) Insert(newData *donate.Transaction) *donate.Transaction {
 	
 
 	if result.Error!= nil {
-        log.Error(result.Error)
+        logrus.Errorf("Error inserting transaction: %v", result.Error)
 		return nil
     }
 	return newData
 }
 
-func (mdl *model) SelectByID(userID int) *donate.Transaction {
+func (mdl *model) SelectByID(id int) *donate.Transaction {
 	var transaction donate.Transaction
-	result := mdl.db.Where("id = ?", userID).Find(&transaction)
+	result := mdl.db.Where("id = ?", id).Find(&transaction)
 
 	if result.Error != nil {
 		log.Error(result.Error)
@@ -66,7 +66,7 @@ func (mdl *model) SelectByID(userID int) *donate.Transaction {
 
 func (mdl *model) SelectByOrderID(orderID string) (*donate.Transaction, error) {
 	var transaction donate.Transaction
-	result := mdl.db.Where("id = ?", orderID).Find(&transaction)
+	result := mdl.db.Table("transactions").Where("order_id = ?", orderID).Find(&transaction)
 
 	if result.Error != nil {
 		logrus.Error("Respository : Get transaction by id error,", result.Error)
@@ -110,7 +110,7 @@ func (mdl *model) CheckTransaction(orderID string) (donate.Status, error) {
 	return donate.Status{}, err
 }
 
-func (mdl *model) UpdateStatusTransaction(id string, status string) error {
+func (mdl *model) UpdateStatusTransaction(id uint, status string) error {
 	result := mdl.db.Table("transactions").Where("id = ?", id).Update("status", status)
 	if result.Error != nil {
 		logrus.Error("Repository: Update transaction status error,", result.Error)
@@ -119,21 +119,6 @@ func (mdl *model) UpdateStatusTransaction(id string, status string) error {
 
 	if result.RowsAffected < 1 {
 		logrus.Error("Repository: No row Affected ,", result.Error)
-		return errors.New("data not found")
-	}
-
-	return nil
-}
-
-func (mdl *model) UpdateStatusOrder(id string, status string) error {
-	result := mdl.db.Table("donateds").Where("id = ?", id).Update("status", status)
-	if result.Error != nil {
-		logrus.Error("Repository: Update order status error,", result.Error)
-		return result.Error
-	}
-
-	if result.RowsAffected < 1 {
-		logrus.Error("Repository: Update order status error,", result.Error)
 		return errors.New("data not found")
 	}
 

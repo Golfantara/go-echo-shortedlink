@@ -4,6 +4,7 @@ import (
 	"shortlink/features/donate"
 
 	"github.com/midtrans/midtrans-go/coreapi"
+	"github.com/sirupsen/logrus"
 )
 
 func TransactionStatus(transactionStatusResp *coreapi.TransactionStatusResponse) donate.Status {
@@ -37,5 +38,6 @@ func TransactionStatus(transactionStatusResp *coreapi.TransactionStatusResponse)
 		status.Donate = "unpaid"
 	}
 
+	logrus.Infof("TransactionStatus: For OrderID %s, Transaction Status: %s, Donate Status: %s", transactionStatusResp.OrderID, status.Transaction, status.Donate)
 	return status
 }

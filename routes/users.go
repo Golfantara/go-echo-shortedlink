@@ -24,12 +24,13 @@ func Users(e *echo.Echo, handler auth.Handler, cfg config.ProgramConfig){
 func Goly(e *echo.Echo, handler goly.Handler, cfg config.ProgramConfig){
 	goly := e.Group("/api/goly")
 
-	goly.POST("", handler.CreateGoly, echojwt.JWT([]byte(cfg.Secret)))
+	goly.Use(echojwt.JWT([]byte(cfg.Secret)))
+	goly.POST("", handler.CreateGoly)
 	goly.GET("", handler.GetAllGoly())
-	goly.GET("/r/:redirect", handler.Redirect, echojwt.JWT([]byte(cfg.Secret)))
-	goly.PUT("/:id",handler.UpdateGoly(), echojwt.JWT([]byte(cfg.Secret)))
-	goly.DELETE("/:id",handler.DeleteGoly(), echojwt.JWT([]byte(cfg.Secret)))
-	goly.GET("/:id",handler.GolyDetails(), echojwt.JWT([]byte(cfg.Secret)))
+	goly.GET("/r/:redirect", handler.Redirect)
+	goly.PUT("/:id",handler.UpdateGoly())
+	goly.DELETE("/:id",handler.DeleteGoly())
+	goly.GET("/:id",handler.GolyDetails())
 	goly.GET("/search/:short", handler.SearchGoly())
 }
 
@@ -37,6 +38,6 @@ func Donate(e *echo.Echo, handler donate.Handler, cfg config.ProgramConfig){
 	donate := e.Group("/api/donate")
 
 	donate.POST("", handler.Insert())
-	donate.POST("/transactions/notifications", handler.Notifications())
+	donate.POST("/notifications", handler.Notifications())
 	donate.GET("", handler.GetAllDonated())
 }

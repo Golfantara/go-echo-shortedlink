@@ -8,21 +8,16 @@ import (
 
 type Transaction struct {
 	ID uint `gorm:"primaryKey;type:int"`
-	// Order     model.Order `gorm:"foreignKey:ID"`
-	OrderID   string `gorm:"type:varchar(255);autoIncrement"`
+	OrderID   string `gorm:"type:varchar(255)"`
 	Status    string `gorm:"type:varchar(20);default:'pending'"`
+	Amount int64
+	Description string `gorm:"type:varchar(255)"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
-	Donated []Donated `gorm:"foreignKey:ID"`
 }
 
 type Status struct {
 	Transaction string
 	Donate       string
-}
-
-type Donated struct {
-	ID    string
-	Amount int64
 }

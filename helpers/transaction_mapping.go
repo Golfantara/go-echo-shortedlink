@@ -8,6 +8,8 @@ import (
 func RequestToTransaction(data dtos.TransactionInput) *donate.Transaction {
 	return &donate.Transaction{
 		ID: data.OrderID,
+		Amount: int64(data.Amount),
+		Description: data.Description,
 	}
 }
 
@@ -16,6 +18,8 @@ func TransactionToResponseInput(data *donate.Transaction, token string, url stri
 		ID:          data.ID,
 		OrderID:     data.OrderID,
 		Status:      data.Status,
+		Amount: uint(data.Amount),
+		Description: data.Description,
 		Token:       token,
 		RedirectURL: url,
 	}
