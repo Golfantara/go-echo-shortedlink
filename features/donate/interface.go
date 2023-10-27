@@ -14,8 +14,7 @@ type Repository interface {
 	DeleteByID(userID int) int64
 	SnapRequest(orderID string, amount int64) (string, string)
 	CheckTransaction(orderID string) (Status, error)
-	UpdateStatusTransaction(id string, status string) error
-	UpdateStatusOrder(id string, status string) error
+	UpdateStatusTransaction(id uint, status string) error
 }
 
 type Usecase interface {

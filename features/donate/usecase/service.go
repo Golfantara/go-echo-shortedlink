@@ -5,11 +5,11 @@ import (
 	"shortlink/features/donate"
 	"shortlink/features/donate/dtos"
 	"shortlink/helpers"
-	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/gommon/log"
 	"github.com/mashingan/smapping"
+	"github.com/sirupsen/logrus"
 )
 
 type service struct {
@@ -66,18 +66,21 @@ func (svc *service) Notifications(notificationPayload map[string]any) error {
 	orderID, exist := notificationPayload["order_id"].(string)
 
 	if !exist {
+		logrus.Error("order id not found in notification payload")
 		return errors.New("invalid notification payload")
 	}
 
 	status, err := svc.model.CheckTransaction(orderID)
 	if err != nil {
+		logrus.Errorf("Error checking transaction for OrderID %s: %v", orderID, err)
 		return err
 	}
 
 	transaction, _ := svc.model.SelectByOrderID(orderID)
 
-	err = svc.model.UpdateStatusOrder(strconv.FormatUint(uint64(transaction.ID),10), status.Transaction)
+	err = svc.model.UpdateStatusTransaction(transaction.ID, status.Transaction)
 	if err != nil {
+		logrus.Errorf("Error updating order status for OrderID %s: %v", orderID, err)
 		return err
 	}
 	return nil
