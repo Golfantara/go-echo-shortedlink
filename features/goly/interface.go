@@ -15,6 +15,7 @@ type Repository interface {
 	Paginate(page, size int) []Goly
 	FindByGolyUrl(url string) (Goly, error)
 	SearchingGoly(short string) ([]Goly, error)
+	StoreIPForGoly(golyID uint64, ip string) error
 }
 
 type UseCase interface {
@@ -26,6 +27,7 @@ type UseCase interface {
 	IncreaseClickAndRedirect(goly Goly) error
 	GetGolyByUrl(url string) (Goly, error)
 	SearchGoly(short string) ([]Goly, error)
+	StoreIPAddress(goly Goly, ip string) error
 }
 
 type Handler interface {

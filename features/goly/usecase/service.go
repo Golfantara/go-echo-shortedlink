@@ -74,7 +74,7 @@ func (svc *service) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 		return nil
 	}
 	if goly.Random {
-		goly.Goly = helpers.RandomURL(8)
+		goly.Custom = helpers.RandomURL(8)
 	}
 	golyID := svc.model.Insert(&goly)
 	if golyID == nil {
@@ -117,4 +117,8 @@ func (svc *service) Remove(golyID int) bool {
         return false
     }
 	return true
+}
+
+func (svc *service) StoreIPAddress(goly goly.Goly, ip string) error {
+	return svc.model.StoreIPForGoly(goly.ID, ip)
 }

@@ -169,10 +169,16 @@ func(ctl *controller) Redirect(c echo.Context) error {
     goly, err := ctl.service.GetGolyByUrl(golyUrl)
     if err != nil {
         return c.JSON(http.StatusInternalServerError, map[string]string{
-            "message": "could not find goly in DB " + err.Error(),
+            "message": "could not find link in DB " + err.Error(),
         })
     }
 
+	ip := c.RealIP()
+
+	err = ctl.service.StoreIPAddress(goly, ip)
+	if err != nil {
+		fmt.Printf("error storing IP address: %v \n", err)
+	}
     err = ctl.service.IncreaseClickAndRedirect(goly)
     if err != nil {
         fmt.Printf("error updating: %v\n", err)
