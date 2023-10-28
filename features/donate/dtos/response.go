@@ -2,6 +2,7 @@ package dtos
 
 type TransactionResponse struct {
 	ID          uint   `json:"id"`
+	UserID      string `json:"user_id"`
 	OrderID     string `json:"order_id"`
 	Status      string `json:"status"`
 	Amount      uint   `json:"amount"`
@@ -10,6 +11,7 @@ type TransactionResponse struct {
 
 type TransactionInputResponse struct {
 	ID          uint   `json:"id"`
+	UserID      string `json:"user_id"`
 	OrderID     string `json:"order_id"`
 	Status      string `json:"status"`
 	Amount      uint   `json:"amount"`

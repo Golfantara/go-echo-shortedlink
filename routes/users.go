@@ -24,7 +24,7 @@ func Users(e *echo.Echo, handler auth.Handler, cfg config.ProgramConfig){
 func Goly(e *echo.Echo, handler goly.Handler, cfg config.ProgramConfig){
 	goly := e.Group("/api/goly")
 
-	goly.Use(echojwt.JWT([]byte(cfg.Secret)))
+	// goly.Use(echojwt.JWT([]byte(cfg.Secret)))
 	goly.POST("", handler.CreateGoly)
 	goly.GET("", handler.GetAllGoly())
 	goly.GET("/r/:redirect", handler.Redirect)
@@ -37,7 +37,7 @@ func Goly(e *echo.Echo, handler goly.Handler, cfg config.ProgramConfig){
 func Donate(e *echo.Echo, handler donate.Handler, cfg config.ProgramConfig){
 	donate := e.Group("/api/donate")
 
-	donate.POST("", handler.Insert())
+	donate.POST("", handler.Insert(), echojwt.JWT([]byte(cfg.Secret)))
 	donate.POST("/notifications", handler.Notifications())
-	donate.GET("", handler.GetAllDonated())
+	donate.GET("", handler.GetAllDonated(), echojwt.JWT([]byte(cfg.Secret)))
 }

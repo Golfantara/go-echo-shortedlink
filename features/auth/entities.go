@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"shortlink/features/donate"
 	"shortlink/features/goly"
 	"time"
 
@@ -17,4 +18,5 @@ type Users struct {
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
 	Goly		[]goly.Goly `gorm:"foreignKey:UserID"`
+	Donate		[]donate.Transaction `gorm:"foreignKey:UserID"`
 }
