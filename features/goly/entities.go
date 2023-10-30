@@ -13,6 +13,7 @@ type Goly struct {
 	Custom    string `gorm:"unique;not null"`
 	Clicked   uint64 
 	Random    bool   
+	ExpiryDate time.Time `json:"expiry_date"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

@@ -1,9 +1,11 @@
 package usecase
 
 import (
+	"errors"
 	"shortlink/features/goly"
 	"shortlink/features/goly/dtos"
 	"shortlink/helpers"
+	"time"
 
 	"github.com/labstack/gommon/log"
 	"github.com/mashingan/smapping"
@@ -31,6 +33,7 @@ func (svc *service) FindAllGoly(page, size int) []dtos.GolyResponse {
 			log.Error(err.Error())
 		}
 
+		data.ExpiryDate = helpers.FormatToIndonesia(golys.ExpiryDate)
 		goly = append(goly, data)
 	}
 	return goly
@@ -53,6 +56,14 @@ func (svc *service) FindGolyByID(golyID int) *dtos.GolyResponse {
 }
 
 func(svc *service) GetGolyByUrl(url string) (goly.Goly, error) {
+	goly, err := svc.model.FindByGolyUrl(url)
+	if err != nil {
+		return goly, err
+	}
+	
+	if time.Now().After(goly.ExpiryDate) {
+		return goly, errors.New("Link is expired")
+	}
 	return svc.model.FindByGolyUrl(url)
 }
 
@@ -73,6 +84,7 @@ func (svc *service) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 		log.Error(err)
 		return nil
 	}
+	goly.ExpiryDate = time.Now().AddDate(0, 0, newGoly.ExpiryInDays)
 	if goly.Random {
 		goly.Custom = helpers.RandomURL(8)
 	}
@@ -86,6 +98,7 @@ func (svc *service) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 		log.Error(errRes)
 		return nil
 	}
+	resGoly.ExpiryDate = helpers.FormatToIndonesia(goly.ExpiryDate)
 	return &resGoly
 }
 
