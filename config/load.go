@@ -4,6 +4,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
 
@@ -34,7 +35,7 @@ func InitConfig() *ProgramConfig {
 
 func LoadDBConfig() DatabaseConfig {
 	var res = new(DatabaseConfig)
-	// godotenv.Load(".env")
+	godotenv.Load(".env")
 	if val, found := os.LookupEnv("DB_PORT"); found {
 		port, err := strconv.Atoi(val)
         if err!= nil {
@@ -60,11 +61,11 @@ func LoadDBConfig() DatabaseConfig {
 func loadConfig() *ProgramConfig {
 	var res = new(ProgramConfig)
 
-	//  err := godotenv.Load(".env")
+	  err := godotenv.Load(".env")
 
-	//  if err!= nil {
-    //      logrus.Error("Config : Cannot load config file: ", err.Error())
-    //  }
+	  if err!= nil {
+          logrus.Error("Config : Cannot load config file: ", err.Error())
+      }
 
 	if val,found := os.LookupEnv("SECRET"); found {
 		res.Secret = val

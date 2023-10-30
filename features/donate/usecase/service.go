@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"shortlink/features/donate"
 	"shortlink/features/donate/dtos"
 	"shortlink/helpers"
@@ -28,6 +29,8 @@ func (svc *service) FindAll(page, size int) []dtos.TransactionInputResponse{
 	var donate []dtos.TransactionInputResponse
 
 	donateEnt := svc.model.Paginate(page, size)
+	fmt.Println("Original:", donateEnt)
+fmt.Println("Mapped:", donate)
 
 	for _, donated := range donateEnt {
 		var data dtos.TransactionInputResponse

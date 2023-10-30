@@ -14,7 +14,7 @@ type TransactionInputResponse struct {
 	UserID      string `json:"user_id"`
 	OrderID     string `json:"order_id"`
 	Status      string `json:"status"`
-	Amount      uint   `json:"amount"`
+	Amount      int64  `json:"amount"`
 	Description string `json:"description"`
 	Token       string `json:"token"`
 	RedirectURL string `json:"redirect_url"`
