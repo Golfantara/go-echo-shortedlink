@@ -20,7 +20,7 @@ func TransactionToResponseInput(data *donate.Transaction, token string, url stri
 		UserID: data.UserID,
 		OrderID:     data.OrderID,
 		Status:      data.Status,
-		Amount: uint(data.Amount),
+		Amount: int64(data.Amount),
 		Description: data.Description,
 		Token:       token,
 		RedirectURL: url,
