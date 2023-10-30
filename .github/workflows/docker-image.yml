@@ -40,4 +40,4 @@ jobs:
             sudo docker stop ${{ secrets.CNAME }}
             sudo docker rm ${{ secrets.CNAME }}
             sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/imgkmb
-            sudo docker run --name ${{ secrets.CNAME }} -p 8000:8000 -d -e DBHOST=${{secrets.DBHOST}} -e DBPORT=3306 -e DBUSER=${{secrets.DBUSER}} -e DBNAME=${{secrets.DBNAME}} -e DBPASS=${{secrets.DBPASS}} -e SECRET=${{secrets.JWTSECRET}} -e REFSECRET=${{secrets.REFSECRET}} -e SERVER=8000 -e GOOCREDS=$(${{secrets.GOOCREDS}}) ${{ secrets.DOCKERHUB_USERNAME }}/imgkmb
+            sudo docker run --name ${{ secrets.CNAME }} -p 8000:8000 -d -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=3306 -e DB_USER=${{secrets.DB_USER}} -e DB_NAME=${{secrets.DB_NAME}} -e DB_PASS=${{secrets.DB_PASS}} -e SECRET=${{secrets.SECRET}} -e REFSECRET=${{secrets.REFSECRET}} -e SERVER=8000 ${{ secrets.DOCKERHUB_USERNAME }}/imgkmb
