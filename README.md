@@ -33,7 +33,8 @@ Membantu selama proses pengembangan:
 3. AI untuk unit testing CodeGPT
 4. Tabnine untuk membantu codingan agar lebih cepat
 
-ERD ![image](https://github.com/Golfantara/go-echo-shortedlink/assets/122778300/d1037bb0-0aec-4741-9c03-c16ee1908da4)
+ERD ![image](https://github.com/Golfantara/go-echo-shortedlink/assets/122778300/b4b0d419-c269-4d1e-8b57-1393709cd902)
+
 
 
 
