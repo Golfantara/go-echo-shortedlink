@@ -24,7 +24,6 @@ func New(model donate.Repository, validate *validator.Validate) donate.Usecase {
 		validator: validate,
 	}
 }
-
 func (svc *service) FindAll(page, size int) []dtos.TransactionInputResponse{
 	var donate []dtos.TransactionInputResponse
 
