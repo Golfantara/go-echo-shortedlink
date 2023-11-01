@@ -49,8 +49,6 @@ func (svc *service) FindAllGoly(page, size int) []dtos.GolyResponse {
 		if err := smapping.FillStruct(&data, smapping.MapFields(golys)); err != nil {
 			log.Error(err.Error())
 		}
-
-		data.ExpiryDate = helpers.FormatToIndonesia(golys.ExpiryDate)
 		goly = append(goly, data)
 	}
 	return goly
@@ -101,7 +99,7 @@ func (svc *service) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 		log.Error(err)
 		return nil
 	}
-	goly.ExpiryDate = time.Now().AddDate(0, 0, newGoly.ExpiryInDays)
+	goly.ExpiryDate = time.Now().AddDate(0,0,newGoly.ExpiryInDays)
 	if goly.Random {
 		goly.Custom = helpers.RandomURL(8)
 	}
@@ -115,7 +113,6 @@ func (svc *service) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 		log.Error(errRes)
 		return nil
 	}
-	resGoly.ExpiryDate = helpers.FormatToIndonesia(goly.ExpiryDate)
 	return &resGoly
 }
 
