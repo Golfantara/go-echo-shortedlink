@@ -30,6 +30,7 @@ type UseCase interface {
 	SearchGoly(short string) ([]Goly, error)
 	StoreIPAddress(goly Goly, ip string) error
 	FindAllIP(page, size int) []IPAdresses
+	ExportIPToPDfAndSave() (string, error)
 }
 
 type Handler interface {
@@ -41,4 +42,5 @@ type Handler interface {
 	Redirect(c echo.Context) error
 	SearchGoly() echo.HandlerFunc
 	GetAllIP() echo.HandlerFunc
+	ExportIPToPDF(c echo.Context) (error)
 }

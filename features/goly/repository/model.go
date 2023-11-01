@@ -12,25 +12,25 @@ type model struct {
 	db *gorm.DB
 }
 
+// ExportIPToPDF implements goly.Repository.
+
 func New(db *gorm.DB) goly.Repository {
 	return &model{
-        db: db,
-    }
+		db: db,
+	}
 }
 
-
-
-func (mdl *model) PaginateIP(page, size int)[]goly.IPAdresses {
+func (mdl *model) PaginateIP(page, size int) []goly.IPAdresses {
 	var ip []goly.IPAdresses
 
-	offset := (page -1) * size
+	offset := (page - 1) * size
 
 	result := mdl.db.Offset(offset).Limit(size).Find(&ip)
 
-	if result.Error!= nil {
-        log.Error(result.Error)
-        return nil
-    }
+	if result.Error != nil {
+		log.Error(result.Error)
+		return nil
+	}
 	return ip
 }
 
@@ -72,25 +72,25 @@ func (mdl *model) SelectByID(golyID int) *goly.Goly {
 }
 
 func (mdl *model) SearchingGoly(short string) ([]goly.Goly, error) {
-    var golies []goly.Goly
-    result := mdl.db.Where("custom LIKE ?", "%"+short+"%").Find(&golies)
-    if result.Error != nil {
-        log.Error(result.Error)
-        return nil, result.Error
-    }
-    return golies, nil
+	var golies []goly.Goly
+	result := mdl.db.Where("custom LIKE ?", "%"+short+"%").Find(&golies)
+	if result.Error != nil {
+		log.Error(result.Error)
+		return nil, result.Error
+	}
+	return golies, nil
 }
 
-func(mdl *model)FindByGolyUrl(url string) (goly.Goly, error) {
+func (mdl *model) FindByGolyUrl(url string) (goly.Goly, error) {
 	var goly goly.Goly
-    result := mdl.db.Where("custom = ?", url).First(&goly)
+	result := mdl.db.Where("custom = ?", url).First(&goly)
 
-    if result.Error!= nil {
-        log.Error(result.Error)
-        return goly, result.Error
-    }
+	if result.Error != nil {
+		log.Error(result.Error)
+		return goly, result.Error
+	}
 
-    return goly, nil
+	return goly, nil
 }
 
 func (mdl *model) Update(goly goly.Goly) int64 {
@@ -104,14 +104,14 @@ func (mdl *model) Update(goly goly.Goly) int64 {
 }
 
 func (mdl *model) UpdateButton(goly goly.Goly) error {
-    result := mdl.db.Updates(&goly)
+	result := mdl.db.Updates(&goly)
 
-    if result.Error != nil {
-        log.Error(result.Error)
-        return result.Error
-    }
+	if result.Error != nil {
+		log.Error(result.Error)
+		return result.Error
+	}
 
-    return nil
+	return nil
 }
 
 func (mdl *model) DeleteByID(golyID int) int64 {
@@ -127,14 +127,14 @@ func (mdl *model) DeleteByID(golyID int) int64 {
 
 func (mdl *model) StoreIPForGoly(golyID uint64, ip string) error {
 	ipAddress := goly.IPAdresses{
-		GolyID: golyID,
-        Address: ip,
+		GolyID:    golyID,
+		Address:   ip,
 		CreatedAt: time.Now(),
 	}
 	result := mdl.db.Create(&ipAddress)
-	if result.Error!= nil {
-        log.Error(result.Error)
-        return result.Error
-    }
+	if result.Error != nil {
+		log.Error(result.Error)
+		return result.Error
+	}
 	return nil
 }

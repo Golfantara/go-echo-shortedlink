@@ -27,6 +27,30 @@ func New(service goly.UseCase) goly.Handler {
 var validate *validator.Validate
 
 
+func (ctl *controller) ExportIPToPDF(c echo.Context) error {
+    pdfFilePath, err := ctl.service.ExportIPToPDfAndSave() // Capture the file path and the error
+    if err != nil {
+        return c.JSON(500, map[string]interface{}{
+            "message": "Error exporting IP addresses to PDF",
+            "error": err.Error(),
+        })
+    }
+
+    if pdfFilePath == "" {
+        fmt.Println("Failed to export IP addresses to PDF")
+        return c.JSON(500, map[string]interface{}{
+            "message": "Failed to export IP addresses to PDF",
+        })
+    }
+
+    return c.JSON(http.StatusOK, map[string]interface{}{
+        "message": "IP addresses exported to PDF successfully",
+        "pdfFilePath": pdfFilePath,
+    })
+}
+
+
+
 func (ctl *controller) GetAllIP() echo.HandlerFunc {
 	return func (ctx echo.Context) error {
 		pagination := dtos.Pagination{}
