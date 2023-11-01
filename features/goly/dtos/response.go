@@ -12,6 +12,6 @@ type GolyResponse struct {
 }
 
 type IPAddressResponse struct {
-	Goly_id string `json:"goly_id"`
-	IP      string `json:"ip"`
+	GolyID uint64 `json:"goly_id"`
+	Address string `json:"ip"`
 }

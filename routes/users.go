@@ -24,7 +24,7 @@ func Users(e *echo.Echo, handler auth.Handler, cfg config.ProgramConfig){
 func Goly(e *echo.Echo, handler goly.Handler, cfg config.ProgramConfig){
 	goly := e.Group("/api/goly")
 
-	// goly.Use(echojwt.JWT([]byte(cfg.Secret)))
+	goly.Use(echojwt.JWT([]byte(cfg.Secret)))
 	goly.POST("", handler.CreateGoly)
 	goly.GET("", handler.GetAllGoly())
 	goly.GET("/r/:redirect", handler.Redirect)
