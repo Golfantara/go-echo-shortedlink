@@ -1,12 +1,17 @@
 package usecase
 
 import (
+	"bytes"
 	"errors"
+	"os"
+	"os/user"
+	"path/filepath"
 	"shortlink/features/goly"
 	"shortlink/features/goly/dtos"
 	"shortlink/helpers"
 	"time"
 
+	"github.com/jung-kurt/gofpdf"
 	"github.com/labstack/gommon/log"
 	"github.com/mashingan/smapping"
 )
@@ -19,6 +24,55 @@ func New(model goly.Repository) goly.UseCase {
 	return &service {
         model: model,
     }
+}
+
+func (svc *service) ExportIPToPDfAndSave() (string, error) {
+	// Create a new PDF document
+	pdf := gofpdf.New("P", "mm", "A4", "")
+	pdf.AddPage()
+
+	// Define font and size
+	pdf.SetFont("Arial", "B", 16)
+
+	// Add a title
+	pdf.Cell(40, 10, "IP Addresses")
+
+	// Fetch the IP address data from your database
+	ipAddresses := svc.model.PaginateIP(1, 10) // Adjust page and size as needed
+
+	// Loop through the IP addresses and add them to the PDF
+	for _, ip := range ipAddresses {
+		pdf.Ln(10)
+		pdf.Cell(0, 10, ip.Address)
+	}
+
+	// Generate the PDF content
+	pdfBuffer := new(bytes.Buffer)
+	err := pdf.Output(pdfBuffer)
+	if err != nil {
+		return "", err
+	}
+
+	// Save the PDF in the user's "Downloads" directory
+	usr, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	downloadsPath := filepath.Join(usr.HomeDir, "Downloads")
+	filePath := filepath.Join(downloadsPath, "ip_addresses.pdf")
+
+	pdfFile, err := os.Create(filePath)
+	if err != nil {
+		return "", err
+	}
+	defer pdfFile.Close()
+
+	_, err = pdfBuffer.WriteTo(pdfFile)
+	if err != nil {
+		return "", err
+	}
+
+	return filePath, nil
 }
 
 
