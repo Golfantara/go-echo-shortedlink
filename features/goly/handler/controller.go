@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"shortlink/features/goly"
 	"shortlink/features/goly/dtos"
@@ -42,6 +43,7 @@ func (ctl *controller) GetAllIP() echo.HandlerFunc {
 		if ip == nil {
 			return ctx.JSON(400, helpers.Response("there is no ip addresses"))
 		}
+		log.Printf("Retrieved %d IP addresses from the database", len(ip)) // Add this line
 		return ctx.JSON(200, helpers.Response("Succes!", map[string]any {
 			"data": ip,
 		}))

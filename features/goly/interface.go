@@ -29,7 +29,7 @@ type UseCase interface {
 	GetGolyByUrl(url string) (Goly, error)
 	SearchGoly(short string) ([]Goly, error)
 	StoreIPAddress(goly Goly, ip string) error
-	FindAllIP(page, size int) []dtos.IPAddressResponse
+	FindAllIP(page, size int) []IPAdresses
 }
 
 type Handler interface {
