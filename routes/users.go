@@ -32,6 +32,7 @@ func Goly(e *echo.Echo, handler goly.Handler, cfg config.ProgramConfig){
 	goly.DELETE("/:id",handler.DeleteGoly())
 	goly.GET("/:id",handler.GolyDetails())
 	goly.GET("/search/:short", handler.SearchGoly())
+	goly.GET("/ip", handler.GetAllIP())
 }
 
 func Donate(e *echo.Echo, handler donate.Handler, cfg config.ProgramConfig){

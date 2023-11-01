@@ -21,6 +21,23 @@ func New(model goly.Repository) goly.UseCase {
     }
 }
 
+
+
+func (svc *service) FindAllIP(page, size int) []dtos.IPAddressResponse {
+	var ip []dtos.IPAddressResponse
+
+	ipEnt := svc.model.PaginateIP(page, size)
+
+	for _, ips := range ipEnt {
+		var data dtos.IPAddressResponse
+
+		if err := smapping.FillStruct(&data, smapping.MapFields(ips)); err != nil {
+			log.Error(err.Error())
+		}
+	}
+	return ip
+}
+
 func (svc *service) FindAllGoly(page, size int) []dtos.GolyResponse {
 	var goly []dtos.GolyResponse
 

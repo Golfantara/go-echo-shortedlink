@@ -16,6 +16,7 @@ type Repository interface {
 	FindByGolyUrl(url string) (Goly, error)
 	SearchingGoly(short string) ([]Goly, error)
 	StoreIPForGoly(golyID uint64, ip string) error
+	PaginateIP(page, size int) []IPAdresses
 }
 
 type UseCase interface {
@@ -28,6 +29,7 @@ type UseCase interface {
 	GetGolyByUrl(url string) (Goly, error)
 	SearchGoly(short string) ([]Goly, error)
 	StoreIPAddress(goly Goly, ip string) error
+	FindAllIP(page, size int) []dtos.IPAddressResponse
 }
 
 type Handler interface {
@@ -38,4 +40,5 @@ type Handler interface {
 	DeleteGoly() echo.HandlerFunc
 	Redirect(c echo.Context) error
 	SearchGoly() echo.HandlerFunc
+	GetAllIP() echo.HandlerFunc
 }

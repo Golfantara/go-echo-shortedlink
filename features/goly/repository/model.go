@@ -20,6 +20,20 @@ func New(db *gorm.DB) goly.Repository {
 
 
 
+func (mdl *model) PaginateIP(page, size int)[]goly.IPAdresses {
+	var ip []goly.IPAdresses
+
+	offset := (page -1) * size
+
+	result := mdl.db.Offset(offset).Limit(size).Find(&ip)
+
+	if result.Error!= nil {
+        log.Error(result.Error)
+        return nil
+    }
+	return ip
+}
+
 func (mdl *model) Paginate(page, size int) []goly.Goly {
 	var goly []goly.Goly
 

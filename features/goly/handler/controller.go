@@ -25,6 +25,29 @@ func New(service goly.UseCase) goly.Handler {
 
 var validate *validator.Validate
 
+
+func (ctl *controller) GetAllIP() echo.HandlerFunc {
+	return func (ctx echo.Context) error {
+		pagination := dtos.Pagination{}
+		ctx.Bind(&pagination)
+
+		page := pagination.Page
+		size := pagination.Size
+
+		if page <= 0 || size <= 0 {
+			return ctx.JSON(400, helpers.Response("Please provide query `page` and `size` in number!"))
+		}
+		ip := ctl.service.FindAllIP(page, size)
+
+		if ip == nil {
+			return ctx.JSON(400, helpers.Response("there is no ip addresses"))
+		}
+		return ctx.JSON(200, helpers.Response("Succes!", map[string]any {
+			"data": ip,
+		}))
+	}
+}
+
 func (ctl *controller) GetAllGoly() echo.HandlerFunc {
 	return func (ctx echo.Context) error  {
 		pagination := dtos.Pagination{}
