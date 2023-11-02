@@ -18,7 +18,7 @@ type Repository interface {
 type UseCase interface {
 	FindAll(page, size int) []dtos.ResUsers
 	FindByID(userID int) *dtos.ResUsers
-	Create(newUsers dtos.InputUsers) *dtos.ResRegister
+	Create(newUsers dtos.InputUsers) (*dtos.ResRegister, error)
 	Modify(userData dtos.InputUsers, userID int) bool
 	Remove(userID int) bool
 	Login(email, password string) (*dtos.ResLogin, error)

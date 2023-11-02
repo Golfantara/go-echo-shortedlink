@@ -14,12 +14,14 @@ import (
 type service struct {
 	model auth.Repository
 	jwt helpers.JWTInterface
+	hash helpers.HashInterface
 }
 
-func New(model auth.Repository, jwt helpers.JWTInterface) auth.UseCase {
+func New(model auth.Repository, jwt helpers.JWTInterface, hash helpers.HashInterface) auth.UseCase {
 	return &service{
         model: model,
         jwt: jwt,
+		hash: hash,
     }
 }
 
@@ -57,29 +59,29 @@ func (svc *service) FindByID(userID int) *dtos.ResUsers {
 	return &res
 }
 
-func (svc *service) Create(newUsers dtos.InputUsers) *dtos.ResRegister {
+func (svc *service) Create(newUsers dtos.InputUsers) (*dtos.ResRegister, error) {
 	user := auth.Users{}
 	err := smapping.FillStruct(&user, smapping.MapFields(newUsers))
 	
 	if err != nil {
 		log.Error(err)
-		return nil
+		return nil, errors.New("failed to create user")
 	}
-	user.Password = helpers.HashPassword(user.Password)
+	user.Password = svc.hash.HashPassword(user.Password)
 
 	
 	// user. = helpers.GenerateUUID()
 	userID := svc.model.Insert(&user)
 
 	if userID == nil {
-        return nil
+        return nil, errors.New("failed to insert user")
     }
 
 	resUser := dtos.ResRegister{}
 	errRes := smapping.FillStruct(&resUser, smapping.MapFields(user))
 	if errRes != nil {
 		log.Error(errRes)
-		return nil
+		return nil, errors.New("failed to mapping users")
 	}
 	ID := strconv.Itoa(resUser.ID)
 	tokenData := svc.jwt.GenerateJWT(ID)
@@ -90,7 +92,7 @@ func (svc *service) Create(newUsers dtos.InputUsers) *dtos.ResRegister {
 
 	resUser.Token = tokenData
 
-	return &resUser
+	return &resUser, nil
 }
 
 func (svc *service) Modify(userData dtos.InputUsers, userID int) bool {
@@ -128,7 +130,7 @@ func (svc *service) Login(email, password string) (*dtos.ResLogin, error) {
 		return nil, err
 	}
 
-	if !helpers.CompareHash(password, user.Password) {
+	if !svc.hash.CompareHash(password, user.Password) {
 		return nil, errors.New("invalid password")
 	}
 

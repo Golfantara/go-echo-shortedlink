@@ -83,7 +83,7 @@ func (ctl *controller) CreateUsers() echo.HandlerFunc {
 			}))
 		}
 
-		user := ctl.service.Create(input)
+		user, _ := ctl.service.Create(input)
 
 		if user == nil {
 			return ctx.JSON(500, helpers.Response("Something went Wrong!", nil))
