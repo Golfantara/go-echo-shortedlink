@@ -27,9 +27,10 @@ func UsersHandler() auth.Handler {
 
 	db := utils.InitDB()
 	jwt := helpers.New(config.Secret, config.RefreshSecret)
+	hash := helpers.NewHash()
 
 	repo := repository.New(db)
-	uc := usecase.New(repo, jwt)
+	uc := usecase.New(repo, jwt, hash)
 	return handler.New(uc)
 }
 
