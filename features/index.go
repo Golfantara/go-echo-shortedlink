@@ -37,7 +37,8 @@ func UsersHandler() auth.Handler {
 func GolyHandler() goly.Handler {
     db := utils.InitDB()
 	repo := golyRepo.New(db)
-	uc := golyUsecase.New(repo)
+	randomURL := helpers.NewGenerateRandomURL()
+	uc := golyUsecase.New(repo, randomURL)
 	return golyHandler.New(uc)
 }
 
