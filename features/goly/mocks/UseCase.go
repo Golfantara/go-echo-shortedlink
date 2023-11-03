@@ -30,6 +30,30 @@ func (_m *UseCase) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 	return r0
 }
 
+// ExportIPToPDfAndSave provides a mock function with given fields:
+func (_m *UseCase) ExportIPToPDfAndSave() (string, error) {
+	ret := _m.Called()
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func() (string, error)); ok {
+		return rf()
+	}
+	if rf, ok := ret.Get(0).(func() string); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindAllGoly provides a mock function with given fields: page, size
 func (_m *UseCase) FindAllGoly(page int, size int) []dtos.GolyResponse {
 	ret := _m.Called(page, size)
@@ -40,6 +64,22 @@ func (_m *UseCase) FindAllGoly(page int, size int) []dtos.GolyResponse {
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]dtos.GolyResponse)
+		}
+	}
+
+	return r0
+}
+
+// FindAllIP provides a mock function with given fields: page, size
+func (_m *UseCase) FindAllIP(page int, size int) []goly.IPAdresses {
+	ret := _m.Called(page, size)
+
+	var r0 []goly.IPAdresses
+	if rf, ok := ret.Get(0).(func(int, int) []goly.IPAdresses); ok {
+		r0 = rf(page, size)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]goly.IPAdresses)
 		}
 	}
 

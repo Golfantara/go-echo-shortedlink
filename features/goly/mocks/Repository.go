@@ -83,6 +83,22 @@ func (_m *Repository) Paginate(page int, size int) []goly.Goly {
 	return r0
 }
 
+// PaginateIP provides a mock function with given fields: page, size
+func (_m *Repository) PaginateIP(page int, size int) []goly.IPAdresses {
+	ret := _m.Called(page, size)
+
+	var r0 []goly.IPAdresses
+	if rf, ok := ret.Get(0).(func(int, int) []goly.IPAdresses); ok {
+		r0 = rf(page, size)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]goly.IPAdresses)
+		}
+	}
+
+	return r0
+}
+
 // SearchingGoly provides a mock function with given fields: short
 func (_m *Repository) SearchingGoly(short string) ([]goly.Goly, error) {
 	ret := _m.Called(short)
