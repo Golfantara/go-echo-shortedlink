@@ -46,8 +46,9 @@ func DonateHandler() donate.Handler {
 	snapClient := utils.MidtransSnapClient(config.MT_Server_Key)
 	coreAPIClient := utils.MidtransCoreAPIClient(config.MT_Server_Key)
 	validate := validator.New()
+	generator := helpers.NewGenerator()
 	db := utils.InitDB()
 	repo := donateRepo.New(db, snapClient, coreAPIClient)
-	uc := donateUsecase.New(repo, validate)
+	uc := donateUsecase.New(repo, validate, generator)
 	return donateHandler.New(uc)
 }

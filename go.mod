@@ -3,6 +3,8 @@ module shortlink
 go 1.21.0
 
 require (
+	github.com/go-playground/assert/v2 v2.2.0
+	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/stretchr/testify v1.8.4
 	gorm.io/gorm v1.25.2-0.20230530020048-26663ab9bf55
 )
@@ -16,7 +18,6 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/jung-kurt/gofpdf v1.16.2 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect

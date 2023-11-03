@@ -43,8 +43,38 @@ func (_m *Handler) DeleteGoly() echo.HandlerFunc {
 	return r0
 }
 
+// ExportIPToPDF provides a mock function with given fields: c
+func (_m *Handler) ExportIPToPDF(c echo.Context) error {
+	ret := _m.Called(c)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(echo.Context) error); ok {
+		r0 = rf(c)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetAllGoly provides a mock function with given fields:
 func (_m *Handler) GetAllGoly() echo.HandlerFunc {
+	ret := _m.Called()
+
+	var r0 echo.HandlerFunc
+	if rf, ok := ret.Get(0).(func() echo.HandlerFunc); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(echo.HandlerFunc)
+		}
+	}
+
+	return r0
+}
+
+// GetAllIP provides a mock function with given fields:
+func (_m *Handler) GetAllIP() echo.HandlerFunc {
 	ret := _m.Called()
 
 	var r0 echo.HandlerFunc

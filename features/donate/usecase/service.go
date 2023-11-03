@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"errors"
-	"fmt"
 	"shortlink/features/donate"
 	"shortlink/features/donate/dtos"
 	"shortlink/helpers"
@@ -16,20 +15,20 @@ import (
 type service struct {
 	model donate.Repository
 	validator *validator.Validate
+	generator helpers.GeneratorInterface
 }
 
-func New(model donate.Repository, validate *validator.Validate) donate.Usecase {
+func New(model donate.Repository, validate *validator.Validate, generator helpers.GeneratorInterface) donate.Usecase {
 	return &service{
 		model: model,
 		validator: validate,
+		generator: generator,
 	}
 }
 func (svc *service) FindAll(page, size int) []dtos.TransactionInputResponse{
 	var donate []dtos.TransactionInputResponse
 
 	donateEnt := svc.model.Paginate(page, size)
-	fmt.Println("Original:", donateEnt)
-fmt.Println("Mapped:", donate)
 
 	for _, donated := range donateEnt {
 		var data dtos.TransactionInputResponse
@@ -52,7 +51,7 @@ func (svc *service) Create(newData dtos.TransactionInput) (*dtos.TransactionInpu
 		return nil, err
 	}
 	var newTransaction = helpers.RequestToTransaction(newData)
-	newTransaction.OrderID = helpers.GenerateUUID()
+	newTransaction.OrderID = svc.generator.GenerateUUID()
 	result := svc.model.Insert(newTransaction)
 	if result == nil {
         return nil, errors.New("failed to insert transaction")
