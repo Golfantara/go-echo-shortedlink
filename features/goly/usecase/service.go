@@ -18,11 +18,13 @@ import (
 
 type service struct {
 	model goly.Repository
+	randomURL helpers.RandomURLInterface
 }
 
-func New(model goly.Repository) goly.UseCase {
+func New(model goly.Repository, randomURL helpers.RandomURLInterface) goly.UseCase {
 	return &service {
         model: model,
+		randomURL: randomURL,
     }
 }
 
@@ -156,7 +158,7 @@ func (svc *service) Create(newGoly dtos.CreateGolyInput) *dtos.GolyResponse {
 	}
 	goly.ExpiryDate = time.Now().AddDate(0,0,newGoly.ExpiryInDays)
 	if goly.Random {
-		goly.Custom = helpers.RandomURL(8)
+		goly.Custom = svc.randomURL.RandomURL(8)
 	}
 	golyID := svc.model.Insert(&goly)
 	if golyID == nil {
